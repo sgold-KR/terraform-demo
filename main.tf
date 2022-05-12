@@ -1,10 +1,6 @@
 # Configure the Azure provider
 terraform {
    backend "azurerm" {
-      resource_group_name  = "myTFResourceGroup"
-      storage_account_name = "storageaccountsgdev"
-      container_name       = "blobcontainername"
-      key                  = "prod.terraform.tfstate"
     }
   required_providers {
     azurerm = {

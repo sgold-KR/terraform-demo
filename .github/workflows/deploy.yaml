@@ -19,6 +19,11 @@ jobs:
     runs-on: [ubuntu-latest]
     environment: 
       name: dev
+    env: 
+      resource_group_name: "myTFResourceGroup"
+      storage_account_name: "storageaccountsgdev"
+      container_name : "blobcontainername"
+      key: "prod.terraform.tfstate"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,10 +43,10 @@ jobs:
       
       - name: Terraform Plan
         id: plan
-        run: terraform plan -input=false -var-file="./environments/dev.tfvars"
+        run: terraform plan -input=false -var-file="./environments/dev.tfvars" -backend-config="resource_group_name=${{ env.resource_group_name }}" -backend-config="storage_account_name=${{ env.storage_account_name }}" -backend-config="container_name=${{ env.container_name }}" -backend-config="key=${{ env.key }}"
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve -input=false -var-file="./environments/dev.tfvars"
+        run: terraform apply -auto-approve -input=false -var-file="./environments/dev.tfvars" -backend-config="resource_group_name=${{ env.resource_group_name }}" -backend-config="storage_account_name=${{ env.storage_account_name }}" -backend-config="container_name=${{ env.container_name }}" -backend-config="key=${{ env.key }}" 
 
       
