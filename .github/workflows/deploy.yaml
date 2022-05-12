@@ -49,4 +49,39 @@ jobs:
         id: apply
         run: terraform apply -auto-approve -input=false -var-file="./environments/dev.tfvars"
 
+  deploy_test:
+      name: 'Terraform deploy test'      
+      runs-on: [ubuntu-latest]
+      environment: 
+        name: test
+      env: 
+        resource_group_name: "myTFResourceGroup"
+        storage_account_name: "storageaccountsgdev"
+        container_name : "blobcontainername"
+        key: "test.terraform.tfstate"
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v1
+          with:
+            terraform_version: 1.1.2
+        
+        - name: Terraform Init
+          id: init
+          run: terraform init -backend-config="resource_group_name=${{ env.resource_group_name }}" -backend-config="storage_account_name=${{ env.storage_account_name }}" -backend-config="container_name=${{ env.container_name }}" -backend-config="key=${{ env.key }}"
+
+        - name: Terraform Validate
+          id: validate
+          run: terraform validate
+        
+        - name: Terraform Plan
+          id: plan
+          run: terraform plan -input=false -var-file="./environments/test.tfvars" 
+
+        - name: Terraform Apply
+          id: apply
+          run: terraform apply -auto-approve -input=false -var-file="./environments/test.tfvars"
+
       
