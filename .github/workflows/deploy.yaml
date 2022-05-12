@@ -13,33 +13,33 @@ env:
   ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
   TF_IN_AUTOMATION: true
 
-  jobs:
-    deploy:
-      name: 'Terraform deploy'
-      runs-on: [ubuntu-latest]
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v3
+jobs:
+  deploy:
+    name: 'Terraform deploy'      
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-        - name: Setup Terraform
-          uses: hashicorp/setup-terraform@v1
-          with:
-            terraform_version: 1.1.2
-       
-        - name: Terraform Init
-          id: init
-          run: terraform init
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.1.2
+      
+      - name: Terraform Init
+        id: init
+        run: terraform init
 
-        - name: Terraform Validate
-          id: validate
-          run: terraform validate
-       
-        - name: Terraform Plan
-          id: plan
-          run: terraform plan
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+      
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
 
-       - name: Terraform Apply
-         id: apply
-         run: terraform apply -auto-approve 
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve 
 
       
