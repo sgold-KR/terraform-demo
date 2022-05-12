@@ -14,9 +14,11 @@ env:
   TF_IN_AUTOMATION: true
 
 jobs:
-  deploy:
+  deploy_dev:
     name: 'Terraform deploy'      
     runs-on: [ubuntu-latest]
+    environment: 
+      name: dev
     steps:
       - name: Checkout
         uses: actions/checkout@v3

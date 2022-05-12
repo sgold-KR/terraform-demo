@@ -1,0 +1,1 @@
+resource_group_name="rg-merchex-deva61-eastus2"
